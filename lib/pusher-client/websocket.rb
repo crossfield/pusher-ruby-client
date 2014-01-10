@@ -81,6 +81,8 @@ module PusherClient
       messages
     rescue IOError, Errno::EBADF => error
       PusherClient.logger.debug error.message
+      #let it crash if we got a disconnect from pusher
+      raise error if error.is_a? EOFError
       []
     end
 
